@@ -1,0 +1,80 @@
+.devices-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .roto-wheel-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .dots-container {
+    position: absolute;
+    bottom: 50px;
+  }
+
+  .device-container {
+    width: 100%;
+    height: 100%;
+    padding: 150px 0 100px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .device-header {
+      text-align: center;
+
+      p {
+        margin: 0;
+      }
+
+      .device-title {
+        font-size: 60px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .device-desc {
+        font-size: 30px;
+      }
+    }
+  }
+
+  .x-phone-bg {
+    color: #ffffff;
+    background-color: #000000;
+  }
+
+  .x-phone-img {
+    width: 80px;
+    height: 100px;
+    background-image: url(@/assets/img/x-phone.png);
+    background-size: 100% 100%;
+  }
+
+  .tablet-bg {
+    background-color: #FAFAFA;
+    color: #000000;
+  }
+
+  .tablet-img {
+    width: 100px;
+    height: 100px;
+    background-image: url(@/assets/img/tablet.png);
+    background-size: 100% 100%;
+  }
+
+  .air-pods-bg {
+    background-color: #F2F2F4;
+    color: #000000;
+  }
+
+  .air-pods-img {
+    width: 80px;
+    height: 80px;
+    background-image: url(@/assets/img/air-pods.png);
+    background-size: 100% 100%;
+  }
+}

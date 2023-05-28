@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { FC, useMemo } from 'react';
-import { DotsType } from '../../types/slider';
+import { FC, forwardRef, Ref, RefObject, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { dotsFlag, DotsType } from '../../types/slider';
 import styles from './dots.module.less';
 
 export interface DotsProps {
@@ -8,18 +8,26 @@ export interface DotsProps {
   className?: string;
   slideCount: number;
   dotStyle?: string; // dot 的自定义样式
-  onClick?: (e) => void;
-  onMouseEnter?: (e) => void;
-  onMouseOver?: (e) => void;
-  onMouseLeave?: (e) => void;
+  autoPlaySpeed?: number;
+  currentIndex?: number;
+  onClick?: (e: any) => void;
+  onMouseEnter?: (e: any) => void;
+  onMouseOver?: (e: any) => void;
+  onMouseLeave?: (e: any) => void;
 }
 
-const Dots: FC<DotsProps> = props => {
+export interface DotsHandle {
+
+}
+
+const Dots = (props: DotsProps, ref: Ref<unknown> | undefined) => {
   const {
     className,
     type = DotsType.POINT,
     slideCount,
     dotStyle,
+    currentIndex = 0,
+    autoPlaySpeed,
     onClick,
     onMouseEnter,
     onMouseOver,
@@ -33,44 +41,57 @@ const Dots: FC<DotsProps> = props => {
     onMouseLeave
   };
 
+  const dotRefs: (HTMLDivElement | null)[] = [];
+
+  useEffect(() => {
+    // remove onfocus & onblur
+    return () => {
+      dotRefs.forEach(ref => {
+        if (ref) {
+          ref.onfocus = null;
+          ref.onblur = null;
+        }
+      });
+    }
+  }, []);
+
   // 生成 dot 列表
   const dots: Array<any> = useMemo(() => {
-    let _dots: any[] = [];
+    const _dots: any[] = [];
+    const _dotStyle = type === DotsType.STYLED ? dotStyle : null; // 是否需要自定义样式
 
-    // 直线型
-    if (type === DotsType.LINE) {
-      for (let i = 0; i < slideCount; i++) {
-        _dots.push(
-          <div key={`line-dot${i}`} className={styles['line-bar']} {...dotsEvents}>
-            {i + 1}
-          </div>
-        );
-      }
+    for (let i = 0; i < slideCount; i++) {
+      _dots.push(
+        <div
+          key={`${dotsFlag[type]}${i}`}
+          ref={ref => dotRefs[i] = ref}
+          className={classNames(styles['dot-bar'], {
+            [styles['line-bar']]: type === DotsType.LINE,
+            [styles['point-bar']]: type === DotsType.POINT
+          }, _dotStyle)}
+          {...dotsEvents}
+        >
+          {i + 1}
+        </div>
+      );
     }
-    // 点型
-    if (type === DotsType.POINT) {
-      for (let i = 0; i < slideCount; i++) {
-        _dots.push(
-          <div key={`pont-dot${i}`} className={styles['point-bar']} {...dotsEvents}>
-            {i + 1}
-          </div>
-        );
-      }
-    }
-    // 自定义型
-    if (type === DotsType.STYLED) {
-      for (let i = 0; i < slideCount; i++) {
-        _dots.push(
-          <div key={`styled-dot${i}`} className={dotStyle} {...dotsEvents}>
-            {i + 1}
-          </div>
-        );
-      }
-    }
+
     return _dots;
   }, [slideCount, dotStyle, onClick]);
+
+  const dotAnimate = useMemo(() => {
+    return 
+  }, []);
+
+  const next = useCallback(() => {
+    
+  }, []);
+
+  useImperativeHandle(ref, (): DotsHandle => ({
+    
+  }));
 
   return <div className={classNames(styles['dots-container'], className)}>{dots.map(dot => dot)}</div>;
 };
 
-export default Dots;
+export default forwardRef(Dots);

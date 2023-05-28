@@ -42,7 +42,13 @@ const Devices: FC<DevicesProps> = () => {
 
   return (
     <div className={styles['devices-container']}>
-      <RotoWheel className={styles['roto-wheel-container']} pauseWhenHover={true} dots={{ className: styles['dots-container'] }} dotsType={DotsType.LINE}>
+      <RotoWheel
+        className={styles['roto-wheel-container']}
+        autoplay={true}
+        pauseWhenHover={true}
+        dots={{ className: styles['dots-container'] }}
+        dotsType={DotsType.LINE}
+      >
         {xPhone}
         {tablet}
         {airPods}
